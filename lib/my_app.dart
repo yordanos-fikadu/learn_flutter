@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'package:flutter_ui/animated_widget.dart';
+
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
@@ -24,7 +26,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Center(child: _buildAnimatedPhysicalModel()),
+      child: Center(child: AnimatedWidgetExample(animation: _controller.view)),
     );
   }
 
@@ -277,6 +279,50 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
             elevation: selected ? 49 : 3,
             color: selected ? Colors.green : Colors.blue,
             shadowColor: selected ? Colors.black : Colors.red,
+            duration: Duration(seconds: 2)));
+  }
+
+  Widget _buildAnimatedPosition() {
+    return SizedBox(
+      width: 200,
+      height: 350,
+      child: Stack(
+        children: <Widget>[
+          AnimatedPositioned(
+            width: selected ? 200.0 : 50.0,
+            height: selected ? 50.0 : 200.0,
+            top: selected ? 50.0 : 150.0,
+            duration: const Duration(seconds: 2),
+            curve: Curves.fastOutSlowIn,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  selected = !selected;
+                });
+              },
+              child: const ColoredBox(
+                color: Colors.blue,
+                child: Center(child: Text('Tap me')),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAnimationSize() {
+    return GestureDetector(
+        onTap: () => setState(() {
+              selected = !selected;
+            }),
+        child: AnimatedSize(
+            curve: selected ? Curves.bounceOut : Curves.bounceIn,
+            child: ColoredBox(
+                color: Colors.green,
+                child: FlutterLogo(
+                  size: selected ? 400 : 100,
+                )),
             duration: Duration(seconds: 2)));
   }
 }
