@@ -74,5 +74,44 @@ class _BuildWidgetsState extends State<BuildWidgets> {
     );
   }
 
-  
+  String? key;
+  final _formKey = GlobalKey<FormState>();
+
+  RawKeyboardListener _buildRawKeyBoardListener() {
+    return RawKeyboardListener(
+      focusNode: FocusNode(),
+      onKey: (value) {
+        if (value.character!.contains('A')) {
+          print('xccxc');
+        }
+      },
+      child: Material(
+        child: Expanded(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  onSaved: (newValue) {
+                    setState(() {
+                      key = newValue;
+                    });
+                  },
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      print(key);
+                    }
+                  },
+                  child: Text('Save'),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
