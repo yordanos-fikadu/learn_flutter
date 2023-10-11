@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
       ),
       backgroundColor: Colors.blue,
       body: Material(
-        child: Center(child: _buildScaleTransition()),
+        child: Center(child: _buildSlideTransition()),
       ),
     );
   }
@@ -419,6 +419,34 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
       scale: CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
       child: FlutterLogo(
         size: 300,
+      ),
+    );
+  }
+
+  Widget _buildSizeTransition() {
+    return SizeTransition(
+      axis: Axis.horizontal,
+      // axisAlignment: 1,
+      sizeFactor:
+          CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
+      child: FlutterLogo(
+        size: 300,
+      ),
+    );
+  }
+
+  Widget _buildSlideTransition() {
+    return SlideTransition(
+      textDirection: TextDirection.ltr,
+      position: Tween<Offset>(
+        begin: Offset.zero,
+        end: const Offset(1.5, 0.0),
+      ).animate(CurvedAnimation(
+        parent: _controller,
+        curve: Curves.elasticIn,
+      )),
+      child: FlutterLogo(
+        size: 200,
       ),
     );
   }
