@@ -18,7 +18,7 @@ class _BuildWidgetsState extends State<BuildWidgets> {
         title: Text('Widgets'),
       ),
       backgroundColor: Color.fromARGB(255, 106, 70, 70),
-      body: Center(child: _buildFuture()),
+      body: Center(child: _buildImage()),
     );
   }
 
