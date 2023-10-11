@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
       ),
       backgroundColor: Colors.blue,
       body: Material(
-        child: Center(child: _buildRotationTransition()),
+        child: Center(child: _buildScaleTransition()),
       ),
     );
   }
@@ -410,6 +410,15 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
       turns: CurvedAnimation(parent: _controller, curve: Curves.bounceInOut),
       child: FlutterLogo(
         size: 200,
+      ),
+    );
+  }
+
+  Widget _buildScaleTransition() {
+    return ScaleTransition(
+      scale: CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
+      child: FlutterLogo(
+        size: 300,
       ),
     );
   }
