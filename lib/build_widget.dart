@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BuildWidgets extends StatefulWidget {
@@ -15,7 +18,7 @@ class _BuildWidgetsState extends State<BuildWidgets> {
         title: Text('Widgets'),
       ),
       backgroundColor: Color.fromARGB(255, 106, 70, 70),
-      body: _buildFuture(),
+      body: Center(child: _buildFuture()),
     );
   }
 
@@ -45,8 +48,31 @@ class _BuildWidgetsState extends State<BuildWidgets> {
         } else {
           print('object');
         }
-        return CircularProgressIndicator();
+        return LinearProgressIndicator();
       },
     );
   }
+
+  Widget _buildStream() {
+    final Stream<int> _bids = (() {
+      late final StreamController<int> controller;
+      controller = StreamController<int>(
+        onListen: () async {
+          await Future<void>.delayed(const Duration(seconds: 1));
+          controller.add(2);
+          await Future<void>.delayed(const Duration(seconds: 1));
+          await controller.close();
+        },
+      );
+      return controller.stream;
+    })();
+    return StreamBuilder(
+      stream: _bids,
+      builder: (context, snapshot) {
+        return Text('${snapshot.data}');
+      },
+    );
+  }
+
+  
 }
