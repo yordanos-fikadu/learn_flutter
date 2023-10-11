@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
       ),
       backgroundColor: Colors.blue,
       body: Material(
-        child: Center(child: _buildHero()),
+        child: Center(child: _buildRotationTransition()),
       ),
     );
   }
@@ -375,6 +375,42 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
             .push(MaterialPageRoute(builder: (context) => HeroAnimation()));
       },
       child: Hero(tag: 'hero', child: Text('Hero')),
+    );
+  }
+
+  Widget _buildPositionTransition() {
+    const double smallLogo = 100;
+    const double bigLogo = 200;
+    return Stack(children: [
+      PositionedTransition(
+        rect: RelativeRectTween(
+          begin: RelativeRect.fromDirectional(
+              textDirection: TextDirection.ltr,
+              start: 10,
+              top: 10,
+              end: 10,
+              bottom: 10),
+          end: RelativeRect.fromDirectional(
+              textDirection: TextDirection.rtl,
+              start: 200,
+              top: 100,
+              end: 200,
+              bottom: 100),
+        ).animate(CurvedAnimation(parent: _controller, curve: Curves.bounceIn)),
+        child: const Padding(
+          padding: EdgeInsets.all(8),
+          child: FlutterLogo(),
+        ),
+      )
+    ]);
+  }
+
+  Widget _buildRotationTransition() {
+    return RotationTransition(
+      turns: CurvedAnimation(parent: _controller, curve: Curves.bounceInOut),
+      child: FlutterLogo(
+        size: 200,
+      ),
     );
   }
 }
