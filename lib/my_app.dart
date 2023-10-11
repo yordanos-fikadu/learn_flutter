@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 import 'package:flutter_ui/animated_widget.dart';
+import 'package:flutter_ui/hero_animation.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -12,9 +13,9 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 2),
+    duration: const Duration(seconds: 3),
     vsync: this,
-  )..repeat();
+  )..repeat(reverse: true);
 
   @override
   void dispose() {
@@ -25,8 +26,14 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Center(child: AnimatedWidgetExample(animation: _controller.view)),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Hero'),
+      ),
+      backgroundColor: Colors.blue,
+      body: Material(
+        child: Center(child: _buildHero()),
+      ),
     );
   }
 
@@ -324,6 +331,51 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                   size: selected ? 400 : 100,
                 )),
             duration: Duration(seconds: 2)));
+  }
+
+  late final AnimationController _boxDecoration =
+      AnimationController(duration: Duration(seconds: 5), vsync: this)
+        ..repeat(reverse: true);
+  Widget _buildDecotatedBoxDecoration() {
+    final decoratedBox = DecorationTween(
+        begin: BoxDecoration(
+            color: Colors.red, borderRadius: BorderRadius.circular(60)),
+        end: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.zero));
+    return GestureDetector(
+      onTap: () => setState(() {
+        selected = !selected;
+      }),
+      child: Container(
+        width: 200,
+        height: 200,
+        child: DecoratedBoxTransition(
+          decoration: decoratedBox.animate(_boxDecoration),
+          child: FlutterLogo(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFadeTransition() {
+    Animation<double> animation =
+        Tween<double>(begin: 1, end: 0.3).animate(_controller);
+    return FadeTransition(
+      opacity: animation,
+      child: Text(
+        'Data',
+        style: TextStyle(fontSize: 80),
+      ),
+    );
+  }
+
+  Widget _buildHero() {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => HeroAnimation()));
+      },
+      child: Hero(tag: 'hero', child: Text('Hero')),
+    );
   }
 }
 

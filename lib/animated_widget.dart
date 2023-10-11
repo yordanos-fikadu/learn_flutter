@@ -14,8 +14,7 @@ class AnimatedWidgetExample extends AnimatedWidget {
       child: OutlinedButton(
         style: ButtonStyle(
             side: MaterialStatePropertyAll(BorderSide(
-          color: Colors.red,
-          width: animation.value
+          width: animation.value,
         ))),
         onPressed: () => print('hello'),
         child: Text('Click Me'),
