@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
       ),
       backgroundColor: Colors.blue,
       body: Material(
-        child: Center(child: _buildSlideTransition()),
+      child:  Center(child: _buildSlideTransition()),
       ),
     );
   }
