@@ -18,7 +18,7 @@ class _LayoutWidgetState extends State<LayoutWidget> {
       ),
       backgroundColor: Colors.white,
       body: Center(
-        child: _buildExpand(),
+        child: _buildFittedBox(),
       ),
     );
   }
@@ -95,6 +95,23 @@ class _LayoutWidgetState extends State<LayoutWidget> {
           child: Text('1'),
         )
       ],
+    );
+  }
+
+  Widget _buildFittedBox() {
+    return Container(
+      width: 300,
+      height: 400,
+      color: Colors.green,
+      child: FittedBox(
+        fit: BoxFit.fitWidth,
+        child: Container(
+          alignment: Alignment.center,
+          width: 900,
+          height: 900,
+          color: Colors.red,
+        ),
+      ),
     );
   }
 }
