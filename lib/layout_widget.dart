@@ -1,6 +1,7 @@
 import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_ui/build_flow.dart';
 
 class LayoutWidget extends StatefulWidget {
   const LayoutWidget({super.key});
@@ -18,7 +19,7 @@ class _LayoutWidgetState extends State<LayoutWidget> {
       ),
       backgroundColor: Colors.white,
       body: Center(
-        child: _buildFittedBox(),
+        child: BuidFlow(),
       ),
     );
   }
@@ -104,6 +105,7 @@ class _LayoutWidgetState extends State<LayoutWidget> {
       height: 400,
       color: Colors.green,
       child: FittedBox(
+        alignment: Alignment.topCenter,
         fit: BoxFit.fitWidth,
         child: Container(
           alignment: Alignment.center,
@@ -113,5 +115,51 @@ class _LayoutWidgetState extends State<LayoutWidget> {
         ),
       ),
     );
+  }
+
+  Widget _buildFractionallySizedBox() {
+    return FractionallySizedBox(
+      heightFactor: 0.5,
+      widthFactor: 0.2,
+      child: Container(
+        color: Colors.amberAccent,
+      ),
+    );
+  }
+
+  Widget _buildLimitedBox() {
+    return Container(
+      height: 300,
+      width: 300,
+      color: Colors.green,
+      child: LimitedBox(
+        maxWidth: 40,
+        maxHeight: 40,
+        child: Container(
+          color: Colors.red,
+        ),
+      ),
+    );
+  }
+
+  _buildTransform() {
+    return Column(children: [
+      Transform.rotate(
+        angle: 2,
+        child: Container(height: 50, width: 50, color: Colors.green),
+      ),
+      Transform.scale(
+        scaleX: 2,
+        child: Container(height: 50, width: 50, color: Colors.green),
+      ),
+      Transform.translate(
+        offset: const Offset(0.0, 100.0),
+        child: Container(
+          padding: const EdgeInsets.all(8.0),
+          color: const Color(0xFF7F7F7F),
+          child: const Text('Quarter'),
+        ),
+      )
+    ]);
   }
 }
