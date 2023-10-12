@@ -19,7 +19,7 @@ class _LayoutWidgetState extends State<LayoutWidget> {
       ),
       backgroundColor: Colors.white,
       body: Center(
-        child: BuidFlow(),
+        child: _buildLayoutBuilder(),
       ),
     );
   }
@@ -161,5 +161,65 @@ class _LayoutWidgetState extends State<LayoutWidget> {
         ),
       )
     ]);
+  }
+
+  int stackIndex = 0;
+  _buildIndexedStack() {
+    return Column(
+      children: [
+        IndexedStack(
+          index: stackIndex,
+          children: [
+            Container(
+              height: 300,
+              width: 400,
+              color: Colors.red,
+            ),
+            Container(
+              height: 300,
+              width: 400,
+              color: Colors.green,
+            ),
+            Container(
+              height: 300,
+              width: 400,
+              color: Colors.blue,
+            )
+          ],
+        ),
+        FloatingActionButton(
+          onPressed: () => setState(() {
+            stackIndex++;
+          }),
+          child: Icon(Icons.add),
+        ),
+        FloatingActionButton(
+          onPressed: () => setState(() {
+            stackIndex--;
+          }),
+          child: Icon(Icons.minimize_outlined),
+        )
+      ],
+    );
+  }
+
+  _buildLayoutBuilder() {
+    return LayoutBuilder(
+      builder: (p0, p1) {
+        if (p1.maxHeight > 300) {
+          return Container(
+            height: 400,
+            width: 300,
+            color: Colors.blue,
+          );
+        } else {
+          return Container(
+            height: 400,
+            width: 400,
+            color: Colors.red,
+          );
+        }
+      },
+    );
   }
 }
