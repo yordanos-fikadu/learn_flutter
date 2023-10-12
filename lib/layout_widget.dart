@@ -19,7 +19,7 @@ class _LayoutWidgetState extends State<LayoutWidget> {
       ),
       backgroundColor: Colors.white,
       body: Center(
-        child: _buildWrap(),
+        child: _builSliverListView(),
       ),
     );
   }
@@ -224,48 +224,36 @@ class _LayoutWidgetState extends State<LayoutWidget> {
   }
 
   Widget _builCustomScrollView() {
-    return Container(
-      child: CustomScrollView(
-        slivers: <Widget>[
-          const SliverAppBar(
-            pinned: true,
-            expandedHeight: 250.0,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text('Demo'),
-            ),
+    List<Widget> list = List.generate(
+        39,
+        (index) => Container(
+              height: 100,
+              width: 100,
+              color: Colors.red,
+            ));
+
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          expandedHeight: 250.0,
+          flexibleSpace: FlexibleSpaceBar(
+            title: Center(child: Text('Demo')),
+            background: Image.network(
+                fit: BoxFit.cover,
+                'https://th.bing.com/th/id/OIP.TNsnPUvsEp-BsggI8pKSewHaHa?pid=ImgDet&rs=1'),
           ),
-          SliverGrid(
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 200.0,
-              mainAxisSpacing: 10.0,
-              crossAxisSpacing: 10.0,
-              childAspectRatio: 4.0,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return Container(
-                  alignment: Alignment.center,
-                  color: Colors.teal[100 * (index % 9)],
-                  child: Text('Grid Item $index'),
-                );
-              },
-              childCount: 20,
-            ),
+          actions: [Icon(Icons.directions_bus_filled_sharp)],
+        ),
+        Positioned(
+          top: 80,
+          child: SliverGrid.count(
+            crossAxisSpacing: 20,
+            crossAxisCount: 2,
+            mainAxisSpacing: 20,
+            children: list,
           ),
-          SliverFixedExtentList(
-            itemExtent: 50.0,
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return Container(
-                  alignment: Alignment.center,
-                  color: Colors.lightBlue[100 * (index % 9)],
-                  child: Text('List Item $index'),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+        )
+      ],
     );
   }
 
@@ -312,6 +300,29 @@ class _LayoutWidgetState extends State<LayoutWidget> {
           width: 100,
           color: Color.fromARGB(255, 147, 145, 130),
         )
+      ],
+    );
+  }
+
+  _builSliverListView() {
+    List<Widget> list = List.generate(
+        39,
+        (index) => Container(
+              height: 50,
+              width: 50,
+              color: Colors.red,
+              child: SizedBox(
+                height: 100,
+              ),
+            ));
+
+    return CustomScrollView(
+      slivers: [
+        SliverList(
+            delegate: SliverChildBuilderDelegate(childCount: list.length,
+                (context, index) {
+          return Column(children: list);
+        }))
       ],
     );
   }
