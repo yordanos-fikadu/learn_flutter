@@ -13,7 +13,7 @@ class _PaintAndEffectState extends State<PaintAndEffect> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: _buildRotatedBox(),
+      child: _buildClipOval(),
     );
   }
 
