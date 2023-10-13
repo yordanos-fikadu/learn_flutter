@@ -12,19 +12,47 @@ class _ScrollableWidgetState extends State<ScrollableWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: _buildRefereshIndicator(),
-      ),
+        appBar: AppBar(),
+        body: Center(
+          child: _buildStack()
+        ));
+  }
+
+  Widget _buildStack() {
+    return Stack(
+      alignment: Alignment.bottomLeft,
+      children: [
+        const CircleAvatar(
+          backgroundImage: AssetImage('images/pic.jpg'),
+          radius: 100,
+        ),
+        Container(
+          decoration: const BoxDecoration(
+            color: Colors.black45,
+          ),
+          child: const Text(
+            'Mia B',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
-  List<Widget> list = List.generate(
-    40,
-    (index) => ListTile(
-      title: Text('data'),
-    ),
-  );
+  Widget _buildGrid() => GridView.extent(
+      maxCrossAxisExtent: 400,
+      padding: const EdgeInsets.all(4),
+      mainAxisSpacing: 20,
+      crossAxisSpacing: 10,
+      children: _buildGridTileList(30));
+  List<Container> _buildGridTileList(int count) => List.generate(
+      count, (i) => Container(child: Image.asset('images/pic$i.jpg')));
+
+  List<Widget> list = List.generate(60, (index) => Text('$index'));
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
   _buildRefereshIndicator() {
@@ -96,5 +124,47 @@ class _ScrollableWidgetState extends State<ScrollableWidget> {
         ),
       ),
     );
+  }
+
+  final List<int> _items = List<int>.generate(50, (int index) => index);
+
+  _buildReorderableListView() {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final Color oddItemColor = colorScheme.primary.withOpacity(0.05);
+    final Color evenItemColor = colorScheme.primary.withOpacity(0.15);
+
+    return ReorderableListView(
+      padding: const EdgeInsets.symmetric(horizontal: 40),
+      children: <Widget>[
+        for (int index = 0; index < _items.length; index += 1)
+          ListTile(
+            key: Key('$index'),
+            tileColor: _items[index].isOdd ? oddItemColor : evenItemColor,
+            title: Text('Item ${_items[index]}'),
+          ),
+      ],
+      onReorder: (int oldIndex, int newIndex) {
+        setState(() {
+          if (oldIndex < newIndex) {
+            newIndex -= 1;
+          }
+          final int item = _items.removeAt(oldIndex);
+          _items.insert(newIndex, item);
+        });
+      },
+    );
+  }
+
+  List<Widget> _itemsScroll = List<Widget>.generate(
+      50,
+      (int index) => Container(
+            width: 100,
+            height: 100,
+            color: Colors.amber,
+          ));
+
+  _buildListWheelScrollView() {
+    return ListWheelScrollView(
+        offAxisFraction: 0.01, itemExtent: 30, children: _itemsScroll);
   }
 }
