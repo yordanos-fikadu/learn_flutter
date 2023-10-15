@@ -1,7 +1,8 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/album.dart';
+import 'package:flutter_ui/get_http.dart';
 import 'package:http/http.dart' as http;
 
 class InternetData extends StatefulWidget {
@@ -12,25 +13,8 @@ class InternetData extends StatefulWidget {
 }
 
 class _InternetDataState extends State<InternetData> {
-  Future<Album> feachAlbum() async {
-    final response = await http
-        .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
-    if (response.statusCode == 200) {
-      return Album.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Failed to load album');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return ListView(children: [
-      FutureBuilder(
-        future: feachAlbum(),
-        builder: (context, snapshot) {
-          return Text('${snapshot.data!.id}');
-        },
-      ),
-    ]);
+    return GetAlbum();
   }
 }
