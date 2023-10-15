@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/http/album.dart';
 import 'package:http/http.dart' as http;
@@ -15,11 +14,10 @@ Future<Album> createAlbum(String title) async {
       'title': title,
     }),
   );
-
   if (response.statusCode == 201) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
-    return Album.postfromJson(jsonDecode(response.body));
+    return Album.getfromJson(jsonDecode(response.body));
   } else {
     // If the server did not return a 201 CREATED response,
     // then throw an exception.
