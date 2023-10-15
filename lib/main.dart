@@ -11,6 +11,6 @@ import 'package:flutter_ui/video_player.dart';
 void main() {
   runApp(MaterialApp(
       home: Scaffold(
-    body: PostHttps(),
+    body: InternetData(),
   )));
 }
