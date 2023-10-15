@@ -6,4 +6,7 @@ class Album {
   factory Album.getfromJson(Map<String, dynamic> json) {
     return Album(userId: json['userId'], id: json['id'], title: json['title']);
   }
+  factory Album.postfromJson(Map<String, dynamic> json) {
+    return Album(title: json['title']);
+  }
 }
